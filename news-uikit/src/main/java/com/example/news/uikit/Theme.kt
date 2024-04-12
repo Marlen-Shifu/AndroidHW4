@@ -73,6 +73,7 @@ fun NewsTheme(
     )
 
 }
+
 object NewsTheme {
     /**
      * Retrieves the current [ColorScheme] at the call site's position in the hierarchy.

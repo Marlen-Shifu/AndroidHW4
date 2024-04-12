@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class SortBy{
+enum class SortBy {
 
     @SerialName("relevancy")
     RELEVANCY,
@@ -14,7 +14,6 @@ enum class SortBy{
 
     @SerialName("publishedAt")
     PUBLISHED_AT,
-
 
 
 }

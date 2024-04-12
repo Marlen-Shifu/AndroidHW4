@@ -1,6 +1,5 @@
 package com.example.database
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -10,8 +9,8 @@ import com.example.database.dao.ArticleDao
 import com.example.database.models.ArticleDBO
 import com.example.database.utils.Converters
 
-class NewsDatabase internal constructor (private val database: NewsRoomDatabase) {
-    val articlesDao : ArticleDao
+class NewsDatabase internal constructor(private val database: NewsRoomDatabase) {
+    val articlesDao: ArticleDao
         get() = database.articlesDao()
 }
 
@@ -27,5 +26,5 @@ fun NewsDatabase(applicationContext: Context): NewsDatabase {
         NewsRoomDatabase::class.java,
         "news"
     ).build()
-    return  NewsDatabase(newsRoomDatabase)
+    return NewsDatabase(newsRoomDatabase)
 }

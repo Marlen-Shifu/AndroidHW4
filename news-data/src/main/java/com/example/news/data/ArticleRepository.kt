@@ -1,4 +1,5 @@
 package com.example.news.data
+
 import android.annotation.SuppressLint
 import com.example.common.Logger
 import com.example.database.NewsDatabase
@@ -26,41 +27,44 @@ class ArticleRepository @Inject constructor(
     private val api: NewsApi,
     private val logger: Logger,
 ) {
-        @SuppressLint("SuspiciousIndentation")
-        fun getAll(
-            query: String,
-            mergeStrategy: MergeStrategy<RequestResult<List<Article>>> = RequestResponseMergeStrategy(),
-        ): Flow<RequestResult<List<Article>>> {
-           val cachedAllArticles: Flow<RequestResult<List<Article>>> = getAllFromDatabase()
-            val remoteArticles: Flow<RequestResult<List<Article>>> = getAllFromServer(query)
+    @SuppressLint("SuspiciousIndentation")
+    fun getAll(
+        query: String,
+        mergeStrategy: MergeStrategy<RequestResult<List<Article>>> = RequestResponseMergeStrategy(),
+    ): Flow<RequestResult<List<Article>>> {
+        val cachedAllArticles: Flow<RequestResult<List<Article>>> = getAllFromDatabase()
+        val remoteArticles: Flow<RequestResult<List<Article>>> = getAllFromServer(query)
 
-              return cachedAllArticles.combine(remoteArticles,mergeStrategy::merge)
-                  .flatMapLatest { result ->
-                      if(result is RequestResult.Success){
-                          database.articlesDao.observeAll()
-                              .map { dbos -> dbos.map { it.toArticle() } }
-                              .map { RequestResult.Success(it) }
-                      }else{
-                          flowOf(result)
-                      }
-                  }
+        return cachedAllArticles.combine(remoteArticles, mergeStrategy::merge)
+            .flatMapLatest { result ->
+                if (result is RequestResult.Success) {
+                    database.articlesDao.observeAll()
+                        .map { dbos -> dbos.map { it.toArticle() } }
+                        .map { RequestResult.Success(it) }
+                } else {
+                    flowOf(result)
+                }
+            }
 
-        }
+    }
 
-    private fun getAllFromServer(query: String): Flow<RequestResult<List<Article>>>{
-      val apiRequest = flow{emit(api.everything(query))}
-          .onEach { result ->
-              if(result.isSuccess) saveNetResponseToCache(result.getOrThrow().articles)
-          }
-          .onEach { result ->
-              if(result.isFailure){
-                  logger.e(LOG_TAG,"ERROR getting data from server. Reason = ${result.exceptionOrNull()}")
-              }
-          }
-          .map { it.toRequestResult() }
+    private fun getAllFromServer(query: String): Flow<RequestResult<List<Article>>> {
+        val apiRequest = flow { emit(api.everything(query)) }
+            .onEach { result ->
+                if (result.isSuccess) saveNetResponseToCache(result.getOrThrow().articles)
+            }
+            .onEach { result ->
+                if (result.isFailure) {
+                    logger.e(
+                        LOG_TAG,
+                        "ERROR getting data from server. Reason = ${result.exceptionOrNull()}"
+                    )
+                }
+            }
+            .map { it.toRequestResult() }
 
         val start = flowOf<RequestResult<ResponseDTO<ArticleDTO>>>(RequestResult.InProgress())
-        return merge(apiRequest,start)
+        return merge(apiRequest, start)
             .map { result: RequestResult<ResponseDTO<ArticleDTO>> ->
                 result.map { response ->
                     response.articles.map { it.toArticle() }
@@ -68,33 +72,33 @@ class ArticleRepository @Inject constructor(
             }
     }
 
-    private suspend fun saveNetResponseToCache(data: List<ArticleDTO>){
-        val dbos = data.map { articleDto ->  articleDto.toArticleDbo() }
+    private suspend fun saveNetResponseToCache(data: List<ArticleDTO>) {
+        val dbos = data.map { articleDto -> articleDto.toArticleDbo() }
         database.articlesDao.insert(dbos)
     }
 
-    private fun getAllFromDatabase(): Flow<RequestResult<List<Article>>>{
+    private fun getAllFromDatabase(): Flow<RequestResult<List<Article>>> {
         val dbRequest = database.articlesDao::getAll.asFlow()
             .map<List<ArticleDBO>, RequestResult<List<ArticleDBO>>> { RequestResult.Success(it) }
 
             .catch {
-                logger.e(LOG_TAG,"Error getting from database. Reason: $it")
+                logger.e(LOG_TAG, "Error getting from database. Reason: $it")
                 emit(RequestResult.Error<List<ArticleDBO>>(error(it)))
             }
 
 
         val start = flowOf<RequestResult<List<ArticleDBO>>>(RequestResult.InProgress())
-        return merge(start,dbRequest).map { result ->
-                result.map { articleDbos ->
-                    articleDbos.map { it.toArticle() }
-                }
+        return merge(start, dbRequest).map { result ->
+            result.map { articleDbos ->
+                articleDbos.map { it.toArticle() }
             }
+        }
 
     }
-    private companion object{
+
+    private companion object {
         const val LOG_TAG = "ArticlesRepository"
     }
-
 
 
     suspend fun search(query: String): Flow<Article> {

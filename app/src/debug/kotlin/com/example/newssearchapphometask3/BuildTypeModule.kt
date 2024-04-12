@@ -1,6 +1,5 @@
 package com.example.newssearchapphometask3
 
-import com.example.newssearchapphometask3.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +15,10 @@ class BuildTypeModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(): OkHttpClient{
-            val logging = HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
-            return   OkHttpClient.Builder().addInterceptor(logging).build()
+    fun provideHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+        return OkHttpClient.Builder().addInterceptor(logging).build()
 
     }
 }

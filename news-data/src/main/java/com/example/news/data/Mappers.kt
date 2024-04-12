@@ -1,10 +1,10 @@
 package com.example.news.data
 
 import com.example.database.models.ArticleDBO
-import com.example.database.models.Source as SourceDBO
 import com.example.news.data.model.Article
 import com.example.news.data.model.Source
 import com.example.newsapi.models.ArticleDTO
+import com.example.database.models.Source as SourceDBO
 
 
 internal fun ArticleDBO.toArticle(): Article {
@@ -34,7 +34,7 @@ internal fun ArticleDTO.toArticle(): Article {
     )
 }
 
-internal fun ArticleDTO.toArticleDbo(): ArticleDBO{
+internal fun ArticleDTO.toArticleDbo(): ArticleDBO {
     return ArticleDBO(
         source = SourceDBO(id = source.id, name = source.name),
         author = author ?: "",

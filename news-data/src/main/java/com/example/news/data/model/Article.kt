@@ -14,9 +14,9 @@ data class Article(
     val urlToImage: String?,
     val publishedAt: Date,
     val content: String
-){
+) {
 
-    companion object{
+    companion object {
         const val ID_NONE = 0L
     }
 }

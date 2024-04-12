@@ -24,7 +24,7 @@ data class ArticleDBO(
     val publishedAt: Date,
     @ColumnInfo("content")
     val content: String,
-     @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
 )
 

@@ -17,12 +17,12 @@ plugins {
 allprojects.onEach { project ->
     project.afterEvaluate {
         with(project.plugins) {
-            if(hasPlugin(libs.plugins.jetbrainsKotlinAndroid.get().pluginId)
+            if (hasPlugin(libs.plugins.jetbrainsKotlinAndroid.get().pluginId)
                 || hasPlugin(libs.plugins.jetbrainsKotlinJvm.get().pluginId)
             ) {
                 apply(libs.plugins.detekt.get().pluginId)
 
-                project.extensions.configure<DetektExtension>{
+                project.extensions.configure<DetektExtension> {
                     config.setFrom(rootProject.files("default-detekt-config.yml"))
                 }
 
