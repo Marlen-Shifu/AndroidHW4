@@ -81,6 +81,8 @@ okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-intercepto
 javax-inject = {module = "javax.inject:javax.inject",version.ref = "javax-inject"}
 jakarta-inject = {module = "jakarta.inject:jakarta.inject-api",version.ref = "jakarta-inject"}
 
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt"}
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
