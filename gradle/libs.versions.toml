@@ -1,6 +1,7 @@
 [versions]
 agp = "8.3.0"
 annotation = "1.7.1"
+coil = "2.6.0"
 kotlin = "1.9.22"
 kotlin-serialization-json = "1.6.3"
 coreKtx = "1.12.0"
@@ -29,6 +30,8 @@ jakarta-inject = "2.0.1"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 

@@ -60,6 +60,9 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
 
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+
     implementation(project(":news-data"))
     implementation(project(":news-uikit"))
 
