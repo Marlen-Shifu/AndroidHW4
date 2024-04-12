@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 
-
 @Suppress("UNREACHABLE_CODE")
 class ArticleRepository @Inject constructor(
     private val database: NewsDatabase,
@@ -45,7 +44,6 @@ class ArticleRepository @Inject constructor(
                     flowOf(result)
                 }
             }
-
     }
 
     private fun getAllFromServer(query: String): Flow<RequestResult<List<Article>>> {
@@ -80,12 +78,10 @@ class ArticleRepository @Inject constructor(
     private fun getAllFromDatabase(): Flow<RequestResult<List<Article>>> {
         val dbRequest = database.articlesDao::getAll.asFlow()
             .map<List<ArticleDBO>, RequestResult<List<ArticleDBO>>> { RequestResult.Success(it) }
-
             .catch {
                 logger.e(LOG_TAG, "Error getting from database. Reason: $it")
                 emit(RequestResult.Error<List<ArticleDBO>>(error(it)))
             }
-
 
         val start = flowOf<RequestResult<List<ArticleDBO>>>(RequestResult.InProgress())
         return merge(start, dbRequest).map { result ->
@@ -93,23 +89,15 @@ class ArticleRepository @Inject constructor(
                 articleDbos.map { it.toArticle() }
             }
         }
-
     }
 
     private companion object {
         const val LOG_TAG = "ArticlesRepository"
     }
 
-
+    @Suppress("UNUSED_PARAMETER")
     suspend fun search(query: String): Flow<Article> {
         api.everything()
         TODO("Not implemented")
     }
-
 }
-
-
-
-
-
-

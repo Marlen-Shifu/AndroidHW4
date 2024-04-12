@@ -7,7 +7,6 @@ import androidx.room.Query
 import com.example.database.models.ArticleDBO
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface ArticleDao {
 
@@ -25,5 +24,4 @@ interface ArticleDao {
 
     @Query("DELETE FROM articles")
     suspend fun clean()
-
 }

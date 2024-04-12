@@ -19,6 +19,7 @@ import java.util.Date
 
 interface NewsApi {
     @GET("everything")
+    @Suppress("LongParameterList")
     suspend fun everything(
         @Query("q") query: String? = null,
         @Query("from") from: Date? = null,
@@ -29,9 +30,7 @@ interface NewsApi {
         @Query("page") @IntRange(from = 1) page: Int = 1
 
     ): Result<ResponseDTO<ArticleDTO>>
-
 }
-
 
 fun NewsApi(
     baseUrl: String,
@@ -39,7 +38,6 @@ fun NewsApi(
     okHttpClient: OkHttpClient? = null,
     json: Json = Json
 ): NewsApi {
-
     return retrofit(baseUrl, apiKey, okHttpClient, json).create()
 }
 
@@ -49,7 +47,7 @@ private val json1 = Json {
     isLenient = true
 }
 
-@Suppress("SuspiciousIndentation")
+@Suppress("SuspiciousIndentation", "UNUSED_PARAMETER")
 private fun retrofit(
     baseUrl: String,
     apiKey: String,
@@ -63,12 +61,8 @@ private fun retrofit(
             NewsApiKeyInterceptor(apiKey)
         ).build()
 
-
     return Retrofit.Builder().baseUrl(baseUrl)
         .addConverterFactory(jsonConverterFactory)
         .addCallAdapterFactory(ResultCallAdapterFactory.create())
         .client(modifiedOkHttpClient).build()
 }
-
-
-

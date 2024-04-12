@@ -14,6 +14,4 @@ enum class SortBy {
 
     @SerialName("publishedAt")
     PUBLISHED_AT,
-
-
 }

@@ -1,8 +1,6 @@
 package com.example.news.data.model
 
-
 import java.util.Date
-
 
 data class Article(
     val cacheId: Long = ID_NONE,
@@ -20,7 +18,6 @@ data class Article(
         const val ID_NONE = 0L
     }
 }
-
 
 data class Source(
     val id: String?,

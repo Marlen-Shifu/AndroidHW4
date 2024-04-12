@@ -11,7 +11,6 @@ import com.example.news.main.NewsMainScreen
 import com.example.news.uikit.NewsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,4 +28,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

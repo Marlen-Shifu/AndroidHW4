@@ -28,7 +28,6 @@ data class ArticleDBO(
     val id: Long,
 )
 
-
 data class Source(
     val id: String?,
     val name: String?
