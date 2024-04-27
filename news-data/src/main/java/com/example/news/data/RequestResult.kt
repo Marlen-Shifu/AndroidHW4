@@ -7,7 +7,6 @@ sealed class RequestResult<out E : Any>(open val data: E? = null) {
     class Error<E : Any>(data: E? = null, val error: Throwable? = null) : RequestResult<E>(data)
 }
 
-
 fun <I : Any, O : Any> RequestResult<I>.map(mapper: (I) -> O): RequestResult<O> {
     return when (this) {
         is RequestResult.Success -> RequestResult.Success(mapper(data))

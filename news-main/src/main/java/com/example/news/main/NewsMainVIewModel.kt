@@ -37,5 +37,4 @@ internal sealed class State(val articles: List<ArticleUI>?) {
     class Loading(articles: List<ArticleUI>? = null) : State(articles)
     class Error(articles: List<ArticleUI>? = null) : State(articles)
     class Success(articles: List<ArticleUI>) : State(articles)
-
 }

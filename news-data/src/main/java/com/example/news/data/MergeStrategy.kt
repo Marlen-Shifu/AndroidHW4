@@ -6,6 +6,7 @@ interface MergeStrategy<E> {
 }
 
 internal class RequestResponseMergeStrategy<T : Any> : MergeStrategy<RequestResult<T>> {
+    @Suppress("CyclomaticComplexMethod")
     override fun merge(right: RequestResult<T>, left: RequestResult<T>): RequestResult<T> {
         return when {
             right is RequestResult.InProgress && left is RequestResult.InProgress -> merge(
@@ -21,7 +22,6 @@ internal class RequestResponseMergeStrategy<T : Any> : MergeStrategy<RequestResu
             right is RequestResult.Error && left is RequestResult.Success -> merge(right, left)
             right is RequestResult.Success && left is RequestResult.Success -> merge(right, left)
 
-
             else -> error("Unimplemented branch right = $right & left = $left ")
         }
     }
@@ -36,6 +36,7 @@ internal class RequestResponseMergeStrategy<T : Any> : MergeStrategy<RequestResu
         }
     }
 
+    @Suppress("UnusedParameter")
     private fun merge(
         cache: RequestResult.Success<T>,
         server: RequestResult.InProgress<T>
